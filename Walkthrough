@@ -1,0 +1,65 @@
+# 🚀 MEXTEL – Telecom Portal Summary
+
+I have completely built the **MEXTEL Full-Stack Self-Service Portal** according to the VibeCoding prompt specifications. 
+
+## 🛠️ Stack & Architecture
+- **Frontend**: React 18, Vite, Tailwind CSS, shadcn/ui style utilities (Lucide icons, Class variance authority), Zustand for state management, React Router v6, Axios for API calls, Recharts for Admin dashboard charting, and xlsx for Excel exports.
+- **Backend**: Node.js, Express.js REST API using JWT and bcrypt for authentication.
+- **Database**: SQLite (via Prisma ORM) with a seeded database consisting of 4 plans, 1 Admin user, and 1 Customer user.
+
+---
+
+## ✨ Implemented Features
+
+### 1. Authentication & Security
+- Developed a highly polished Login page with a split layout. 
+- Integrated a custom **animated expanding wave background** using CSS keyframes on the left brand panel.
+- Included the custom MEXTEL SVG logo with its signature electric blue and teal gradient arc.
+- Created `ProtectedRoute` middleware for React Router, ensuring Customers cannot view Admin pages and vice-versa. 
+- The backend API leverages `jsonwebtoken` and role checks for securely authenticating endpoints.
+
+### 2. Customer Portal End-to-End
+- **Dashboard**: Features the "My Plan" Hero Card detailing active plan information, price, and renewal date. It includes custom SVG Progress Rings measuring Data, Minutes, and SMS usage with corresponding theme colors. It also includes an Account Summary section and a Recent Activity history table.
+- **Browse Plans**: Displays all active plans in both a **Card Grid View** (highlighting the popular plan and current plan states) and a detailed **Comparison Table View**. 
+- **Plan Switch Flow**: Customers can select a new plan. A glass-morphic Confirmation Modal asks for confirmation, showing the price difference, before committing the change via a backend transaction. 
+
+### 3. Admin Portal End-to-End
+- **Dashboard**: Includes four top-line KPI summary cards (Total Customers, Active Plans, Monthly Changes, Top Plan). Underneath is a **Recharts Horizontal Bar Chart** visualizing subscribers per plan. Finally, there's a recent plan changes history table.
+- **Data Export**: Admins can export all customer plan changes securely to either a `.CSV` or `.XLSX` (Excel) file natively via the browser using the `xlsx` library.
+- **Plan Management**: A fully integrated table displaying all plans with edit constraints and subscriber counts.
+- **Plan Drawer**: A sleek, right-side slide-out drawer allowing admins to create **New** plans or **Edit** existing ones. It gracefully handles dynamic input for plan features. Admins can also Soft-Delete (Deactivate) plans so they no longer appear to customers but preserve historical data.
+
+---
+
+## 🏃‍♀️ How to Launch and Test Locally
+
+The application uses standard `npm` run scripts. We have switched to SQLite as the local database provider so no initial PostgreSQL installation was necessary.
+
+### 1. Start the Backend API Server
+The server runs on **Port 3001**.
+```bash
+cd server
+npm install        # (If not already installed)
+npm run dev        # Starts nodemon
+```
+
+### 2. Start the Frontend Vite Client
+The client development server has been configured to proxy `/api` requests automatically to `localhost:3001`.
+```bash
+cd client
+npm install        # (If not already installed)
+npm run dev        # Typically starts on Port 5173 or 5174
+```
+
+### 3. Test Credentials
+Navigate to the local frontend URL (e.g. `http://localhost:5173`).
+
+**To test the Customer Portal:**
+- **Email:** `customer@mextel.mx`
+- **Password:** `Customer@1234`
+- **Role Toggle:** Select *Customer*
+
+**To test the Admin Portal:**
+- **Email:** `admin@mextel.mx`
+- **Password:** `Admin@1234`
+- **Role Toggle:** Select *Administrator*

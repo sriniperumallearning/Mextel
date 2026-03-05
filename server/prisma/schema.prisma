@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int           @id @default(autoincrement())
+  email         String        @unique
+  passwordHash  String
+  fullName      String
+  phone         String?
+  role          Role          @default(CUSTOMER)
+  currentPlanId Int?
+  currentPlan   Plan?         @relation(fields: [currentPlanId], references: [id])
+  planChanges   PlanChange[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Plan {
+  id            Int           @id @default(autoincrement())
+  name          String        @unique
+  price         Float
+  dataGB        Int
+  callMinutes   Int
+  smsCount      Int
+  features      String        // Stored as JSON string
+  isActive      Boolean       @default(true)
+  subscribers   User[]
+  planChanges   PlanChange[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model PlanChange {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  fromPlanId  Int?
+  toPlanId    Int
+  toPlan      Plan      @relation(fields: [toPlanId], references: [id])
+  changedAt   DateTime  @default(now())
+  reason      String?
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}

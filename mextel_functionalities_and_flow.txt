@@ -1,0 +1,85 @@
+# MEXTEL – Telecom Portal: Functionalities & System Flow
+
+## 1. Project Overview
+MEXTEL is a production-grade, full-stack Telecommunications Self-Service Portal. It provides a seamless experience for Customers to manage their connectivity and for Administrators to oversee the entire platform's offerings and user activity.
+
+## 2. Core Functionalities
+
+### 🛡️ Authentication & Authorization
+- **Unified Login**: A high-polish, split-layout login page featuring an animated signal wave background and custom SVG branding.
+- **Secure Access**: JWT-based session management with role-aware routing.
+- **Role Isolation**: Strictly enforced `ProtectedRoute` components prevent unauthorized cross-portal access.
+
+### 👤 Customer Portal
+- **Interactive Dashboard**:
+    - **Usage Rings**: Custom SVG circular progress indicators for Data, Minutes, and SMS.
+    - **Hero Card**: Quick view of active plan, monthly cost, and renewal countdown.
+    - **Account Summary**: Personal details and membership status.
+    - **Recent History**: Table tracking the last 5 plan modifications.
+- **Plan Discovery**:
+    - **Toggle Views**: Switch between a visual Card Grid and a detailed Comparison Table.
+    - **Subscribed States**: Clear visual indicators for "Current Plan" and "Most Popular" options.
+- **Plan Management**:
+    - **Confirmation Flow**: Glass-morphic modal displaying price deltas (e.g., +MXN $100) and feature changes.
+    - **Transactional Updates**: Real-time plan switching with instant dashboard updates.
+
+### 🛡️ Admin Portal
+- **Performance Analytics**:
+    - **KPI Metrics**: Real-time counters for total customers, active plans, and monthly churn/changes.
+    - **Recharts Integration**: Horizontal bar charts visualizing subscriber distribution across tiers.
+- **Enterprise Plan Management**:
+    - **Plan Control Center**: Comprehensive table with subscriber counts and active/inactive status.
+    - **Plan Drawer**: Sliding side-panel for zero-navigation CRUD (Create, Read, Update).
+    - **Smart Features**: Dynamic tag-based chip entry for plan features.
+    - **Soft Deletion**: Deactivation capability to maintain historical audit integrity.
+- **Data Mobility**: Native browser-based export to `.CSV` and `.XLSX` (Excel) for reporting and audits.
+
+## 3. Detailed System Flow Chart
+
+```text
+       +----------------------------+
+       |       MEXTEL LOGIN         |
+       | (Logo, Animation, JWT Auth)|
+       +-------------+--------------+
+                     |
+            [ Authenticate & ]
+            [ Validate Role  ]
+                     |
+         +-----------v-----------+
+         |       ROLE GUARD      |
+         +---+---------------+---+
+             |               |
+      (Role: CUSTOMER)   (Role: ADMIN)
+             |               |
++------------v---------+  +--v-----------------------+
+|  CUSTOMER DASHBOARD  |  |     ADMIN DASHBOARD      |
+| - Usage Rings (SVG)  |  | - KPI Dashboard Cards    |
+| - My Plan Hero Card  |  | - Recharts (Subscribers) |
+| - Change History     |  | - Churn/Change Metrics   |
++------------+---------+  +----------+---------------+
+             |                       |
+     +-------v--------+      +-------v---------------+
+     | BROWSE PLANS   |      | PLAN MANAGEMENT       |
+     | - Grid/Table   |      | - Plan Table View     |
+     | - Tier Compare |      | - CRUD sliding Drawer |
+     +-------+--------+      +-------+---------------+
+             |                       |
+     +-------v--------+      +-------v---------------+
+     | PLAN SWITCH    |      | AUDIT & REVIEWS       |
+     | - Price Delta  |      | - Recent Activity     |
+     | - Confirm Modal|      | - Export (CSV/Excel)  |
+     +-------+--------+      +-----------------------+
+             |
+     [ Update Cache ]
+     [ Sync DB      ]
+```
+
+## 4. Technical Stack
+- **Frontend**: React 18, Vite, Tailwind CSS, shadcn/ui.
+- **State/API**: Zustand, Axios, React Router v6.
+- **Backend**: Node.js, Express.js (REST).
+- **Persistence**: SQLite via Prisma ORM (Scalable to PostgreSQL).
+- **Utilities**: Recharts (Data Viz), xlsx (Reporting), Lucide (Icons).
+
+---
+*Built for MEXTEL — Always Connected. Always You.*
